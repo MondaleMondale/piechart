@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
         circle {
-/*            stroke-dasharray: 100;*/
-/*            stroke-dashoffset: 0;*/
-             ;
+            /*            stroke-dasharray: 100;*/
+            /*            stroke-dashoffset: 0;*/
+            ;
         }
+
     </style>
 </head>
 
 <body>
 
     <svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-        <circle id="part1" cx="50" cy="50" r="20" fill="none" stroke="blue"    stroke-width="40"/>
-        <circle id="part0" cx="50" cy="50" r="20" fill="none" stroke="red"    stroke-width="40"/>
+<!--
+        <circle id="part1" cx="50" cy="50" r="20" fill="none" stroke="blue" stroke-width="40" />
+        <circle id="part0" cx="50" cy="50" r="20" fill="none" stroke="red" stroke-width="40" />
+-->
 
-<!--        <circle id="part3" cx="50" cy="50" r="20" fill="none" stroke="none"    stroke-width="40"/>-->
+        <!--        <circle id="part3" cx="50" cy="50" r="20" fill="none" stroke="none"    stroke-width="40"/>-->
     </svg>
 
 
-<!--
+    <!--
     <svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
     <circle  cx="50" cy="50" r="20" fill="none" stroke="blue"    stroke-width="40"/>
     <circle  cx="50" cy="50" r="10" fill="none" stroke="red"    stroke-width="40"/>
@@ -32,27 +36,63 @@
 
     <script>
         "use strict";
-        let totalLength = document.querySelector("circle").getTotalLength();
+        //        let totalLength = document.querySelector("circle").getTotalLength();
         let percentage_0 = 10;
         let percentage_1 = 5;
+        let allVal = 0;
+        let arrayOfPiePieces = [{
+            val: 100,
+            color: "red"
+        }, {
+            val: 200,
+            color: "blue"
+        }, {
+            val: 200,
+            color: "green"
+        }];
 
-        console.log(totalLength);
+
+
+
 
         //Then the computed dashoffset will be:
         //dashoffset = (totallength / 100) * percentage
 
-       document.addEventListener("DOMContentLoaded", startScript);
-        function startScript(){
+        document.addEventListener("DOMContentLoaded", startScript);
 
-            document.querySelector("#part0").style.strokeDasharray = totalLength;
-            document.querySelector("#part1").style.strokeDasharray = totalLength;
-            document.querySelector("#part0").style.strokeDashoffset = totalLength-totalLength/100 * percentage_0;
-            document.querySelector("#part1").style.strokeDashoffset = totalLength-totalLength/100 * (percentage_0+percentage_1);
+        function startScript() {
+            arrayOfPiePieces.forEach(each => {
+                console.log(each.color)
+                allVal += each.val;
+            })
+            console.log("allVal", allVal);
 
-//            document.querySelector("#part1")
+            arrayOfPiePieces.forEach((each, index) => {
+                let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute( 'cx', 50);
+
+                circle.setAttribute( 'cy', 50);
+                circle.setAttribute( 'r', 20 - (index * 2));
+
+                circle.style.fill = "none";
+                circle.style.strokeWidth = 40;
+                circle.style.stroke = each.color;
+
+                document.querySelector("svg").appendChild(circle);
+                console.log(circle.getTotalLength());
+                circle.style.strokeDasharray  = circle.getTotalLength();
+                circle.style.strokeDashoffset = circle.getTotalLength() -(circle.getTotalLength() * each.val /500);
+            })
+//            document.querySelector("#part0").style.strokeDasharray = totalLength;
+//            document.querySelector("#part1").style.strokeDasharray = totalLength;
+//            document.querySelector("#part0").style.strokeDashoffset = totalLength - totalLength / 100 * percentage_0;
+//            document.querySelector("#part1").style.strokeDashoffset = totalLength - totalLength / 100 * (percentage_0 + percentage_1);
+
+            //            document.querySelector("#part1")
 
         }
 
     </script>
 </body>
+
 </html>
